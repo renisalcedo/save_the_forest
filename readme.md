@@ -2,9 +2,7 @@
 
 ## Description:
 
-A single player game with multiple characters fighting intruders who are trying to clear a forest.
-
-This game was created in a gitflow environment by @renisalcedo, @11awashington, and @FranciscoJG20.
+A single player game with multiple characters fighting intruders who are trying to clear a forest.This game was created in a gitflow environment by @renisalcedo, @11awashington, and @FranciscoJG20.
 
 ## Features:
 
