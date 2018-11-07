@@ -5,7 +5,11 @@ class Player(Character):
         Character.__init__(self)
         self.weapon = weapon
         self.sprite = sprite 
- 
+    
+    def load_image(self, name):
+        image = pygame.image.load(name)
+        return image
+
     def shoot(self):
         ##shoots projectile
 
@@ -13,9 +17,10 @@ class Player(Character):
 
         return atk  
 
-        ## look for pygames animations // create a seperate function to animate and call it in the shoot method
-        ## pygame clock
-        ## equation which accounts for speed, and time
+        # look for pygames animations // create a seperate function to animate
+        # and call it in the shoot method
+        # pygame clock
+        # equation which accounts for speed, and time
 
     def defend(self):
         #reflect damage from the attacker 
