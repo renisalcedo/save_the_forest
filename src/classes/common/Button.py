@@ -1,8 +1,8 @@
 import pygame
 
 class Button:
-    def __init__(self, screen, left_top=(50,50), width_height=(20,20),
-        color=[255,0,0]):
+    def __init__(self, screen, color=[255,0,0],
+        left_top=(50,50), width_height=(20,20)):
         # PROPERTY INITIALIZATION
         self.btn = pygame.Rect(left_top, width_height)
         self.color = color
