@@ -1,4 +1,5 @@
 from Character import Character
+import pygame
 
 class Player(Character):
     def __init__(self, weapon, sprite):
