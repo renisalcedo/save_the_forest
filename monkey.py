@@ -10,4 +10,4 @@ class Monkey(Player):
         # envoke sprite
         # change status
         # return damage ("dmg")
-        
+        pass
