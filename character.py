@@ -1,6 +1,6 @@
-class Character:
-    def __init__(self, status, level, name): 
-        self.status = {'hp':hp, 'power':power, 'speed':speed, 'cost':cost, defense}
+class Chagit racter:
+    def __init__(self, status, level, name, hp, power, speed, cost, defense): 
+        self.status = {'hp':hp, 'power':power, 'speed':speed, 'cost':cost, 'defense':defense}
         self.level = level
         self.name = name
   # properties and  method                      
@@ -9,7 +9,7 @@ class Character:
     
     def recieve_damage(self, dmg)
         self.status['hp'] -= dmg
-                       
+                       gl
                        
                        
         alive = true
@@ -23,4 +23,4 @@ class Character:
         
         if self.status ['hp'] => 0:
         return
-            
+# creating parameters for status --> hp, power, speed, cost, defense 
