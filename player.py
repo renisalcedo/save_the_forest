@@ -1,28 +1,50 @@
 from Character import Character
+import pygame
 
 class Player(Character):
-    def __init__(self, weapon, fight = False):
-        Character.__init__(self, status, level, name)
+    def __init__(self, weapon, sprite):
+        Character.__init__(self)
         self.weapon = weapon
-        self.fight = fight 
+        self.sprite = sprite 
+    
+    def load_image(self, name):
+        image = pygame.image.load(name)
+        return image
 
     def shoot(self):
         ##shoots projectile
+
         atk = self.get_stat('atk')
 
-        return atk 
+        return atk  
 
+        # look for pygames animations // create a seperate function to animate
+        # and call it in the shoot method
+        # pygame clock
+        # equation which accounts for speed, and time
 
-    def defend(self, fight):
+    def defend(self):
         #reflect damage from the attacker 
-        if fight == False:
             dfnd = self.get_stat('dfnd')
             dmg = 
-        else:
-            print()
+        
+        ## equation ()
+        return defnd status
+        #dmg = (hp - defense) / defense
 
 
-    def set_prop(key, val):
+    def set_prop(self, status_key, value):
+        self.stats[status_key] += value
     #Updates key property of player with a given value
+
+    def upgrade(self):
+        self.level <= 5
+        self.level += 1
+
+        set_prop()
     #upgrade: Level 5 is the max level of upgrade. 
     #Level by 1 and set the property depending on the character.
+
+
+
+
