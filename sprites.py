@@ -17,7 +17,7 @@ class Sprite(pygame.sprite.Sprite):
     # iterating through set of images
     def update(self):
         self.index += 1
-        if self.index == len(self.img_set):
+        if self.index >= len(self.img_set):
             self.index = 0
         
         self.image = self.img_set[self.index] 
