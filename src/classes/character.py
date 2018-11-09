@@ -14,7 +14,12 @@ class Character(Status):
         Status.__init__(self, health, atk, spd, dfnd)
         self.level = level
         self.name = name
-              
+        self.cost = cost
+    
+    def get_cost(self, cost):
+        return self.get_status('cost')  
+
+        
     def recieve_damage(self, dmg):
         defense = self.stats['dfnd']
         dmg -= defense
@@ -22,3 +27,6 @@ class Character(Status):
         self.stats['health'] -= dmg
         
         return self.get_status('health') <= 0
+    
+    # The class character is missing the initialization of the cost property. Also, I think it would be a great idea to add a get_cost function that returns the cost.
+ 
