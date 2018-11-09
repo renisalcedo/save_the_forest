@@ -16,8 +16,8 @@ class Character(Status):
         self.name = name
         self.cost = cost
     
-    def get_cost(self, cost):
-        return self.get_status('cost')  
+    def get_cost(self):
+        return self.cost 
 
         
     def recieve_damage(self, dmg):
