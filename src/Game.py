@@ -68,5 +68,5 @@ class Game:
             # Closes the Game on exit
             if event.type == pygame.QUIT:
                 self.playing = False
-
+                
             self.menu.start.on_click(event, self.menu_state)
