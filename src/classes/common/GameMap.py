@@ -22,6 +22,10 @@ class GameMap:
         self.trees = {1:Tree([5,255]), 2:Tree([5,328]), 3:Tree([5,397]),
                       4:Tree([5,468]), 5:Tree([5,546])}
 
+        # In Game Music
+        pygame.mixer.music.load('./src/assets/music/background_music.ogg')
+        pygame.mixer.music.play()
+
     def render(self, screen):
         screen.blit(pygame.transform.scale(self.map,(1280, 720)), [0,0])
 
