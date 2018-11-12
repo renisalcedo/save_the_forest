@@ -1,4 +1,5 @@
-from player import Player
+from common.player import Player
+from common.sprites import Sprite
 
 class Monkey(Player):
     def __init__(self, sprite):
@@ -10,4 +11,4 @@ class Monkey(Player):
         # envoke sprite
         # change status
         # return damage ("dmg")
-        pass
+        
