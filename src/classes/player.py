@@ -1,5 +1,6 @@
 from Character import Character
-import Sprite from sprites
+from sprites import Sprite
+import pygame
 
 class Player(Character):
     def __init__(self, weapon, sprite):
@@ -14,38 +15,34 @@ class Player(Character):
     def shoot(self):
         ##shoots projectile
 
-        atk = self.get_stat('atk')
+        atk = self.self.stats['atk']
 
         return atk  
-
-        
 
         # look for pygames animations // create a seperate function to animate
         # and call it in the shoot method
         # pygame clock
         # equation which accounts for speed, and time
 
-    def defend(self):
+    def defend(self, defense):
         #reflect damage from the attacker 
-            dfnd = self.get_stat('dfnd')
-            dmg = 
         
-        ## equation ()
-        return defnd status
-        #dmg = (hp - defense) / defense
+            dmg = ((self.stats['health'] - defense) / defense) + self.stats['atk'] 
+            
+            self.stats['health'] -= dmg 
 
+            return self.get_status['health']
+            return self.
 
-    def set_prop(self, status_key, value):
-        self.stats[status_key] += value
-    #Updates key property of player with a given value
+        
+        ## subtract defense points from attacker's health 
 
-    def upgrade(self):
-        self.level <= 5
+    def upgrade(self, key, val):
+        if self.level < 5:
+            self.stat_assign()
+    
         self.level += 1
 
-        set_prop()
-    #upgrade: Level 5 is the max level of upgrade. 
-    #Level by 1 and set the property depending on the character.
 
 
 
