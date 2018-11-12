@@ -3,10 +3,10 @@ import sys
 
 class Sprite(pygame.sprite.Sprite):
     # pygame.sprite.Sprite =  Simple base class for visible game objects
-    def __init__(self, img_set=[]):
+    def __init__(self):
         #pygame.sprite.Sprite.__init__(self): rewriting it as following:
         super(Sprite, self).__init__()
-        self.img_set = img_set
+        self.img_set = []
         self.index = 0
         self.image = self.img_set[index]
 
@@ -17,7 +17,7 @@ class Sprite(pygame.sprite.Sprite):
     # iterating through set of images
     def update(self):
         self.index += 1
-        if self.index == len(self.img_set):
+        if self.index >= len(self.img_set):
             self.index = 0
         
         self.image = self.img_set[self.index] 
