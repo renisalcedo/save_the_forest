@@ -6,8 +6,8 @@ from Config import Configuration
 sx = Configuration().get_config('SCREEN_WIDTH')
 
 class Player(Character):
-    def __init__(self, weapon, screen, img_set, pos):
-        Character.__init__(self)
+    def __init__(self, weapon, screen, img_set, pos, health=250, spd=5, dfnd=5, atk=5):
+        Character.__init__(self, level, name, cost, health, spd, dfnd, atk)
         self.weapon = pygame.image.load(weapon)
         self.sprite = Sprite(img_set)
         self.screen = screen

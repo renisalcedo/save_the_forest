@@ -10,7 +10,7 @@ class Status:
 
 # character will inherit from the status 
 class Character(Status):
-    def __init__(self, level, name, cost, health=250, spd=5, dfnd=5, atk=5): 
+    def __init__(self, level, name, cost, health, spd, dfnd, atk): 
         Status.__init__(self, health, atk, spd, dfnd)
         self.level = level
         self.name = name
