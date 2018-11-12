@@ -1,6 +1,6 @@
 class Configuration:
     def __init__(self):
-        self.config = {'SCREEN_WIDTH': 1280, 'SCREEN_HEIGHT': 736,
+        self.config = {'SCREEN_WIDTH': 1280, 'SCREEN_HEIGHT': 720,
                            'CENTERX': 1280 / 2, 'CENTERY': 736 / 2}
         self.custom = {}
 
