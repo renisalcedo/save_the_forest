@@ -1,6 +1,9 @@
 import pygame
+
+# Relative Imports
 from src.classes.common.Button import Button
 from src.classes.common.Menu import Menu
+from src.classes.common.GameMap import GameMap
 
 class Game:
     def __init__(self, screen):
@@ -9,6 +12,7 @@ class Game:
         self.playing = True
         self.screen = screen
         self.menu_open = True
+        self.clock = pygame.time.Clock() 
 
     def main(self):
         self.create()
@@ -18,32 +22,37 @@ class Game:
         color = [22, 160, 133]
         size = (150,50)
 
-        # Add And Load Background into the game
-        self.background = pygame.image.load("./src/assets/images/backyard.png")
+        # Creates Map
+        img_url = './src/assets/maps/forest1/map02.png'
+        self.map = GameMap(img_url)
 
         # Create the menu for the game
-        self.menu = Menu(self.screen, color, size, self.background)
+        self.menu = Menu(self.screen, color, size, self.map)
         self.menu.create_menu()
 
     def update(self):
         while self.playing:
+            self.clock.tick()
+
             # All Game Runing Game Events
             self.all_event()
 
-            self.active_menu()
+            pygame.display.set_caption("{:.2f}".format(self.clock.get_fps()))
 
             # Update the graphics in the game
             pygame.display.update()
 
+            self.active_state()
+
     def game_over(self):
         pass
 
-    def active_menu(self):
+    def active_state(self):
         if self.menu_open:
             self.menu.active()
         else:
-            self.screen.blit(self.background, [0,0])
-
+            self.map.render(self.screen)
+            
     def level_up(self):
         self.level += 1
         pass
@@ -59,5 +68,5 @@ class Game:
             # Closes the Game on exit
             if event.type == pygame.QUIT:
                 self.playing = False
-
+                
             self.menu.start.on_click(event, self.menu_state)

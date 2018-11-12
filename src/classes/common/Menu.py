@@ -26,7 +26,7 @@ class Menu:
 
     def active(self):
         # Activate Buttons and Background
-        self.screen.blit(self.background, [0,0])
+        self.background.render(self.screen)
 
         # Pane for the options
         pygame.draw.rect(self.screen, [39, 174, 96], self.menu_pane)
