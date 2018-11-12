@@ -1,4 +1,3 @@
-import pytmx
 import pygame
 
 class Tree:
