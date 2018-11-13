@@ -34,7 +34,7 @@ class Enemy(pygame.sprite.Sprite):
         self.image = self.walk_set[self.walk_index]
         self.rect = self.image.get_rect(center=pos)
         self.pos = pygame.math.Vector2(pos)
-        self.vel = pygame.math.Vector2(-100, 0)
+        self.vel = pygame.math.Vector2(-150, 0)
         self.damage = 50
         self.hp = 250
         self.attacking = False
@@ -80,7 +80,3 @@ class Enemy(pygame.sprite.Sprite):
 
         if self.hp <= 0:
             self.kill()
-
-    def collide_player(self, player):
-        if self.collidepoint(player):
-            print("Collided!")
