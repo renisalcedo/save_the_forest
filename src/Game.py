@@ -5,7 +5,6 @@ from src.classes.common.Button import Button
 from src.classes.common.Menu import Menu
 from src.classes.common.GameMap import GameMap
 from src.classes.Shop import Shop
-from src.classes.monkey import Monkey
 
 class Game:
     def __init__(self, screen):
@@ -15,12 +14,18 @@ class Game:
         self.screen = screen
         self.menu_open = True
         self.clock = pygame.time.Clock() 
+        self.all_players = []
+        self.last = pygame.time.get_ticks()
+        self.money_cooldown =  2000
+        self.coin_sound = pygame.mixer.Sound('./src/assets/music/Coin.ogg') 
 
     def main(self):
         self.create()
         self.update()
 
     def create(self):
+        pygame.mixer.music.load('./src/assets/music/background_music.ogg')
+
         color = [22, 160, 133]
         size = (150,50)
 
@@ -33,7 +38,7 @@ class Game:
         self.menu.create_menu()
 
         # Creates Shop
-        self.shop = Shop()
+        self.shop = Shop(self.screen)
 
     def update(self):
         while self.playing:
@@ -50,7 +55,18 @@ class Game:
             if not self.menu_open:
                 """ All Game Logic Goes Here"""
                 # Active Shop
-                self.shop.render_shop(self.screen)
+                self.shop.render_shop()
+
+                # Get Money Every now and then
+                now = pygame.time.get_ticks()
+                if now - self.last >= self.money_cooldown:
+                    self.shop.time_money(True)
+                    self.coin_sound.play()
+                    self.last = now
+
+                # All Players moving
+                for player in self.all_players:
+                    player.shoot_bananas()
 
             # Update the graphics in the game
             pygame.display.update()
@@ -71,7 +87,6 @@ class Game:
     def menu_state(self):
         if self.menu_open:
             # In Game Music
-            pygame.mixer.music.load('./src/assets/music/background_music.ogg')
             pygame.mixer.music.play()
             self.menu_open = False
         else:
@@ -85,3 +100,6 @@ class Game:
 
             if self.menu_open:
                 self.menu.start.on_click(event, self.menu_state)
+
+            if not self.menu_open:
+                self.shop.shop_event(event, self.all_players)

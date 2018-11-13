@@ -26,10 +26,10 @@ class Player(Character):
     def __init__(self, name, weapon, screen, img_set, pos, cost, health=250, spd=5, dfnd=5, atk=5, level=1):
         Character.__init__(self, level, name, cost, health, spd, dfnd, atk)
         self.screen = screen
-        self.pos = pos # Placeholder for player pos
+        self.pos = pos
 
         # Sprites for Player
-        sprite = Sprite(img_set)
+        sprite = Sprite(pos, img_set)
         self.sprite_group = pygame.sprite.Group(sprite)
 
         # Sprites group for weapon
@@ -40,6 +40,9 @@ class Player(Character):
         # Add timing for delay
         self.cooldown = -self.get_status('spd') + 290
         self.last = pygame.time.get_ticks()
+
+        # Sound Effects
+        self.shoot_sound = pygame.mixer.Sound('./src/assets/music/Hit.ogg')
 
     def animate(self, animate):
         self.sprite_group.update(animate)
@@ -67,10 +70,8 @@ class Player(Character):
             self.weapon_timer = -self.get_status('spd') + 6
 
             # Adds Projectile to projectile group
-            pos = self.pos[:]
-            pos[1] += 50
-            pos[0] += 50
-            Projectile(pos, self.weapon, self.get_status('atk'), self.weapon_group)
+            Projectile(self.pos, self.weapon, self.get_status('atk'), self.weapon_group)
+            self.shoot_sound.play()
 
     def defend(self):
         #reflect damage from the attacker
