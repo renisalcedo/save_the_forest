@@ -4,6 +4,7 @@ import pygame
 from src.classes.common.Button import Button
 from src.classes.common.Menu import Menu
 from src.classes.common.GameMap import GameMap
+from src.classes.monkey import Monkey
 
 class Game:
     def __init__(self, screen):
@@ -21,6 +22,7 @@ class Game:
     def create(self):
         color = [22, 160, 133]
         size = (150,50)
+        self.monkey = Monkey(self.screen, [0,0])
 
         # Creates Map
         img_url = './src/assets/maps/forest1/map02.png'
@@ -41,6 +43,7 @@ class Game:
 
             # Update the graphics in the game
             pygame.display.update()
+
 
             self.active_state()
 
@@ -68,5 +71,8 @@ class Game:
             # Closes the Game on exit
             if event.type == pygame.QUIT:
                 self.playing = False
+
+            
+            self.monkey.shoot_bananas(event)
                 
             self.menu.start.on_click(event, self.menu_state)
