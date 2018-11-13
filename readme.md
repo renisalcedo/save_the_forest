@@ -14,7 +14,9 @@ Python, Pygame, OpenGameArt, Trello
 
 ## Installation Instructions: 
 
-TBD
+1. Fork and clone repository: https://github.com/renisalcedo/save_the_forest.git
+2. Run `Python3 app.py`
+3. Play game! 
 
 ## Future Directions & Unsolved Problems: 
 
