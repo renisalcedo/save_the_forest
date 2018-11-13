@@ -3,13 +3,13 @@ import sys
 
 class Sprite(pygame.sprite.Sprite):
     # pygame.sprite.Sprite =  Simple base class for visible game objects
-    def __init__(self, img_set):
+    def __init__(self, pos, img_set):
         #pygame.sprite.Sprite.__init__(self): rewriting it as following:
         super(Sprite, self).__init__()
         self.img_set = img_set
         self.index = 0
         self.image = self.img_set[self.index]
-        self.rect = pygame.Rect(5, 5, 64, 64)
+        self.rect = self.image.get_rect(center=pos)
 
     # adding one image to an array of images
     def add(self, img):
