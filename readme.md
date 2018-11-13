@@ -1,5 +1,7 @@
 # Save the Forest
 
+https://user-images.githubusercontent.com/36175254/48389285-c5233000-e6ca-11e8-888b-654a313cf631.png
+
 ## Description:
 
 A single player game with multiple characters fighting intruders who are trying to clear a forest.This game was created in a gitflow environment by @renisalcedo, @11awashington, and @FranciscoJG20.
