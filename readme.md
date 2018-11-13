@@ -22,4 +22,4 @@ Python, Pygame, OpenGameArt, Trello
 
 ## Future Directions & Unsolved Problems: 
 
-TBD
+In future iterations, we would like to develop levels 2 -5, and add functionalities including one that allows players to upgrade more than once.  
