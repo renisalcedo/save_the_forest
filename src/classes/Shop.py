@@ -55,7 +55,9 @@ class Shop:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     pos = list(event.pos)
                     pos[1] -= 10
-                    all_players.append(Monkey(self.screen, pos))
+                    # all_players.append(Monkey(self.screen, pos))
+                    id = len(all_players)
+                    all_players.append(Monkey(self.screen, pos, id))
                     self.move = False
 
     def set_money(self, amount):

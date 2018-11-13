@@ -1,10 +1,12 @@
 import pygame
+from random import choice
 
 # Relative Imports
 from src.classes.common.Button import Button
 from src.classes.common.Menu import Menu
 from src.classes.common.GameMap import GameMap
 from src.classes.Shop import Shop
+from src.classes.Enemy import Enemy
 
 class Game:
     def __init__(self, screen):
@@ -16,8 +18,14 @@ class Game:
         self.clock = pygame.time.Clock() 
         self.all_players = []
         self.last = pygame.time.get_ticks()
-        self.money_cooldown =  2000
+        self.money_cooldown =  2500
         self.coin_sound = pygame.mixer.Sound('./src/assets/music/Coin.ogg') 
+        self.tree_count = 5
+        self.enemies_killed = 0
+        self.tree_pos = [[1800, 280], [1800, 360], [1800, 437], [1800,500], [1800,586]]
+
+        # Initializes the enemy Group
+        self.enemy_group = pygame.sprite.Group()
 
     def main(self):
         self.create()
@@ -46,16 +54,46 @@ class Game:
             self.clock.tick()
             pygame.display.set_caption("{:.2f}".format(self.clock.get_fps()))
 
-            # All Game Runing Game Events
-
             # Active state in the game
             self.active_state()
+
+            # All Game Runing Game Events
             self.all_event()
 
             if not self.menu_open:
+                if self.tree_count == 0:
+                    self.game_over()
+
                 """ All Game Logic Goes Here"""
                 # Active Shop
                 self.shop.render_shop()
+
+                # Draws Tree and Enemy Group into screen
+                self.enemy_group.draw(self.screen)
+                self.map.tree_groups.draw(self.screen)
+
+                enemy_hit_tree = pygame.sprite.groupcollide(self.enemy_group, self.map.tree_groups, False, False)
+                for enemy, tree in enemy_hit_tree.items():
+                    enemy.attacking = True
+
+                    now = pygame.time.get_ticks()
+                    make_damage = False
+                    if now - self.last >= 200:
+                        self.last = now
+                        now = pygame.time.get_ticks()
+                        make_damage = True
+
+                    if make_damage:
+                        make_damage = False
+                        tree[0].damaged(enemy.damage)
+
+                    if tree[0].hp < 0:
+                        self.tree_count -= 1
+                        enemy.kill()
+
+                # Moves New Enemy at a constant speed
+                dt = pygame.time.Clock().tick(60) / 1000
+                self.enemy_group.update(dt, self.map.tree_groups)
 
                 # Get Money Every now and then
                 now = pygame.time.get_ticks()
@@ -64,15 +102,47 @@ class Game:
                     self.coin_sound.play()
                     self.last = now
 
+                    Enemy(choice(self.tree_pos), self.enemy_group)
+
                 # All Players moving
                 for player in self.all_players:
                     player.shoot_bananas()
+
+                    banana_hit_enemy = pygame.sprite.groupcollide(player.weapon_group, self.enemy_group, False, False)
+                    enemy_hit_player = pygame.sprite.groupcollide(self.enemy_group, player.sprite_group, False, False)
+
+                    for enemy, player in enemy_hit_player.items():
+                        now = pygame.time.get_ticks()
+                        make_damage = False
+                        enemy.attacking = True
+
+                        if now - self.last >= 200:
+                            self.last = now
+                            now = pygame.time.get_ticks()
+                            make_damage = True
+
+                        if make_damage:
+                            make_damage = False
+                            player[0].receive_damage(enemy.damage)
+
+                            if player[0].hp <= 0:
+                                del self.all_players[player[0].id]
+
+                                enemy.attacking = False
+
+                    for banana, enemy in banana_hit_enemy.items():
+                        enemy[0].receive_damage(banana.damage)
+                        banana.kill()
+
+                        # Money for killing Enemy
+                        self.enemies_killed += 1
+                        self.shop.money += 10
 
             # Update the graphics in the game
             pygame.display.update()
 
     def game_over(self):
-        pass
+        self.active_state()
 
     def active_state(self):
         if self.menu_open:
