@@ -1,6 +1,6 @@
 # Save the Forest
 
-https://user-images.githubusercontent.com/36175254/48389285-c5233000-e6ca-11e8-888b-654a313cf631.png
+![Game image](https://user-images.githubusercontent.com/36175254/48389285-c5233000-e6ca-11e8-888b-654a313cf631.png)
 
 ## Description:
 
