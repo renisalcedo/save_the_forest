@@ -12,7 +12,7 @@ class Projectile(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=pos)
         self.pos = pygame.math.Vector2(pos)
         self.vel = pygame.math.Vector2(420, 0)
-        self.damage = 10
+        self.damage = damage
 
     def update(self, dt):
         # Add the velocity to the position vector to move the sprite.
@@ -23,13 +23,13 @@ class Projectile(pygame.sprite.Sprite):
             self.kill()
 
 class Player(Character):
-    def __init__(self, name, weapon, screen, img_set, pos, cost, health=250, spd=5, dfnd=5, atk=5, level=1):
+    def __init__(self, name, id, weapon, screen, img_set, pos, cost, health=250, spd=5, dfnd=5, atk=100, level=1):
         Character.__init__(self, level, name, cost, health, spd, dfnd, atk)
         self.screen = screen
         self.pos = pos
 
         # Sprites for Player
-        sprite = Sprite(pos, img_set)
+        sprite = Sprite(pos, img_set, health, id)
         self.sprite_group = pygame.sprite.Group(sprite)
 
         # Sprites group for weapon
