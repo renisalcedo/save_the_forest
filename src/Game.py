@@ -4,6 +4,7 @@ import pygame
 from src.classes.common.Button import Button
 from src.classes.common.Menu import Menu
 from src.classes.common.GameMap import GameMap
+from src.classes.Shop import Shop
 from src.classes.monkey import Monkey
 
 class Game:
@@ -22,7 +23,6 @@ class Game:
     def create(self):
         color = [22, 160, 133]
         size = (150,50)
-        self.monkey = Monkey(self.screen, [0,0])
 
         # Creates Map
         img_url = './src/assets/maps/forest1/map02.png'
@@ -32,20 +32,28 @@ class Game:
         self.menu = Menu(self.screen, color, size, self.map)
         self.menu.create_menu()
 
+        # Creates Shop
+        self.shop = Shop()
+
     def update(self):
         while self.playing:
+            # Game FPS (Frame per second)
             self.clock.tick()
+            pygame.display.set_caption("{:.2f}".format(self.clock.get_fps()))
 
             # All Game Runing Game Events
+
+            # Active state in the game
+            self.active_state()
             self.all_event()
 
-            pygame.display.set_caption("{:.2f}".format(self.clock.get_fps()))
+            if not self.menu_open:
+                """ All Game Logic Goes Here"""
+                # Active Shop
+                self.shop.render_shop(self.screen)
 
             # Update the graphics in the game
             pygame.display.update()
-
-
-            self.active_state()
 
     def game_over(self):
         pass
@@ -62,6 +70,9 @@ class Game:
 
     def menu_state(self):
         if self.menu_open:
+            # In Game Music
+            pygame.mixer.music.load('./src/assets/music/background_music.ogg')
+            pygame.mixer.music.play()
             self.menu_open = False
         else:
             self.menu_open = True
@@ -72,7 +83,5 @@ class Game:
             if event.type == pygame.QUIT:
                 self.playing = False
 
-            
-            self.monkey.shoot_bananas(event)
-                
-            self.menu.start.on_click(event, self.menu_state)
+            if self.menu_open:
+                self.menu.start.on_click(event, self.menu_state)

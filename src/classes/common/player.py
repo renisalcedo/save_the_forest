@@ -5,52 +5,72 @@ from .Config import Configuration
 
 sx = Configuration().get_config('SCREEN_WIDTH')
 
+class Projectile(pygame.sprite.Sprite):
+    def __init__(self, pos, weapon, damage, *sprite_groups):
+        super().__init__(*sprite_groups)
+        self.image = weapon
+        self.rect = self.image.get_rect(center=pos)
+        self.pos = pygame.math.Vector2(pos)
+        self.vel = pygame.math.Vector2(420, 0)
+        self.damage = 10
+
+    def update(self, dt):
+        # Add the velocity to the position vector to move the sprite.
+        self.pos += self.vel * dt
+        self.rect.center = self.pos  # Update the rect pos.
+
+        if self.pos[0] >= sx:
+            self.kill()
+
 class Player(Character):
     def __init__(self, name, weapon, screen, img_set, pos, cost, health=250, spd=5, dfnd=5, atk=5, level=1):
         Character.__init__(self, level, name, cost, health, spd, dfnd, atk)
-        self.weapon = weapon
         self.screen = screen
         self.pos = pos # Placeholder for player pos
 
+        # Sprites for Player
         sprite = Sprite(img_set)
         self.sprite_group = pygame.sprite.Group(sprite)
 
-    def animate(self, screen):
-        self.sprite_group.update()
-        self.sprite_group.draw(screen)
+        # Sprites group for weapon
+        self.weapon = weapon
+        self.weapon_timer = .1
+        self.weapon_group = pygame.sprite.Group()
+
+        # Add timing for delay
+        self.cooldown = -self.get_status('spd') + 290
+        self.last = pygame.time.get_ticks()
+
+    def animate(self, animate):
+        self.sprite_group.update(animate)
     
     def load_image(self, name):
         image = pygame.image.load(name)
         self.sprite.add(image)
 
-    def shoot(self, event):
-        ##shoots projectile
-        weapon = self.weapon 
-        self.sprite_group.update()
-        self.animate(self.screen)
-        self.screen.blit(weapon, self.pos)
-        self.active_projectile(self.pos, weapon, event)
+    def shoot(self):
+        # shoots projectile
+        now = pygame.time.get_ticks()
+        self.sprite_group.draw(self.screen)
 
-    """ 
-    If function keeps the x updating
-    put curr x inside the condition
-    """
-    """
-    ADD COLLISION EVENT
-    ADDING DAMAGE TO ENEMY ON ITEM COLLISION
-    """
-    def active_projectile(self, curr_pos, weapon, event):
-        curr_pos[0] += 5
-        if not self.off_limits(curr_pos[0]):
-            self.screen.blit(weapon, curr_pos)
+        # Shoots projectile
+        dt = pygame.time.Clock().tick(60) / 1000
+        self.weapon_group.update(dt)
+        self.weapon_group.draw(self.screen)
 
-    def off_limits(self, x):
-        return True if x > sx else False
-        
-        # look for pygames animations // create a seperate function to animate
-        # and call it in the shoot method
-        # pygame clock
-        # equation which accounts for speed, and time
+        if now - self.last >= self.cooldown:
+            self.animate(True)
+            self.last = now
+
+        self.weapon_timer -= dt
+        if self.weapon_timer <= 0:
+            self.weapon_timer = -self.get_status('spd') + 6
+
+            # Adds Projectile to projectile group
+            pos = self.pos[:]
+            pos[1] += 50
+            pos[0] += 50
+            Projectile(pos, self.weapon, self.get_status('atk'), self.weapon_group)
 
     def defend(self):
         #reflect damage from the attacker
@@ -67,8 +87,3 @@ class Player(Character):
             self.stat_assign(key, val)
     
         self.level += 1
-
-
-
-
-

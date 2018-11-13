@@ -16,9 +16,12 @@ class Sprite(pygame.sprite.Sprite):
         img_set.append(img)
 
     # iterating through set of images
-    def update(self):
-        self.index += 1
+    def update(self, animate):
+        if animate:
+            self.index += 1
+
         if self.index >= len(self.img_set):
             self.index = 0
         
         self.image = self.img_set[self.index] 
+        animate = False
