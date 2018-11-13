@@ -15,7 +15,7 @@ class Tree(pygame.sprite.Sprite):
     def damaged(self, dmg):
         self.hp -= dmg
         if self.hp <= 0:
-            self.image = pygame.image.load('./src/assets/maps/forest1/cutted.png')
+            self.kill()
 
 class GameMap:
     def __init__(self, map):

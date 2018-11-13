@@ -18,11 +18,13 @@ class Game:
         self.clock = pygame.time.Clock() 
         self.all_players = []
         self.last = pygame.time.get_ticks()
-        self.money_cooldown =  2500
+        self.money_cooldown = 2500
         self.coin_sound = pygame.mixer.Sound('./src/assets/music/Coin.ogg') 
         self.tree_count = 5
         self.enemies_killed = 0
-        self.tree_pos = [[1800, 280], [1800, 360], [1800, 437], [1800,500], [1800,586]]
+        self.tree_pos = [[1400, 280], [1400, 360], [1400, 437], [1400,500], [1400,586]]
+        self.last_tree_hit = pygame.time.get_ticks()
+        self.game_over_prop = False
 
         # Initializes the enemy Group
         self.enemy_group = pygame.sprite.Group()
@@ -60,7 +62,7 @@ class Game:
             # All Game Runing Game Events
             self.all_event()
 
-            if not self.menu_open:
+            if not self.menu_open and not self.game_over_prop:
                 if self.tree_count == 0:
                     self.game_over()
 
@@ -76,10 +78,11 @@ class Game:
                 for enemy, tree in enemy_hit_tree.items():
                     enemy.attacking = True
 
-                    now = pygame.time.get_ticks()
                     make_damage = False
-                    if now - self.last >= 200:
-                        self.last = now
+
+                    now = pygame.time.get_ticks()
+                    if now - self.last_tree_hit >= 200:
+                        self.last_tree_hit = now
                         now = pygame.time.get_ticks()
                         make_damage = True
 
@@ -87,9 +90,9 @@ class Game:
                         make_damage = False
                         tree[0].damaged(enemy.damage)
 
-                    if tree[0].hp < 0:
-                        self.tree_count -= 1
-                        enemy.kill()
+                        if tree[0].hp <= 0:
+                            self.tree_count -= 1
+                            enemy.attacking = False
 
                 # Moves New Enemy at a constant speed
                 dt = pygame.time.Clock().tick(60) / 1000
@@ -142,7 +145,7 @@ class Game:
             pygame.display.update()
 
     def game_over(self):
-        self.active_state()
+        self.game_over_prop = True
 
     def active_state(self):
         if self.menu_open:
